@@ -39,9 +39,9 @@ body, html {
 }
 
 .form-box {
-    width: 350px;
+    width: 400px;
     padding: 40px;
-    background: #FAF9F6;
+    background: #ffffff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 9px;
     margin: auto;
@@ -96,6 +96,6 @@ body, html {
 
 .form-box button:hover,
 .form-box button:active {
-    background-color: #a4030e;
+    background-color: #9b040e;
     transform: scale(1.02);
 }
