@@ -1,0 +1,80 @@
+@font-face {
+    font-family: 'inter';
+    src: local('inter'),
+         url('../fonts/inter.ttf') format("truetype");
+  }
+
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: 'inter', sans-serif;
+}
+
+.login-container {
+    display: flex;
+    height: 100vh;
+}
+
+.logo-section {
+    background-color: #fab617;
+    width: 33.33%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-logo {
+    width: 300px;
+    height: auto;
+}
+
+.form-section {
+    background-color: #231E0D;
+    width: 66.66%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.form-box {
+    width: 400px;
+    padding: 40px;
+    background: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 9px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-box h3 {
+    color: #333333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.form-box form p {
+    width: 100%;
+    text-align: center;
+}
+
+.form-box input[type='text'],
+.form-box input[type='password'] {
+    width: 100%;
+    padding: 15px 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 18px;
+    box-sizing: border-box;
+}
+
+.form-box label {
+    font-size: 18px;
+    margin-bottom: 5px;
+    display: block;
+    text-align: left;
+}
