@@ -1,5 +1,5 @@
 # 35mm Film Photo Gallery
-![35mm](static/images/35mmIcon.jpg)
+![35mm](static/images/35mmIcon.png)
 
 This Django project is designed as a digital platform to host all of my 35mm film photographs. It's a simple, user-friendly way to manage and showcase my film photography collection online.
 
