@@ -15,6 +15,7 @@ env/
 
 /static/
 !static/images/35mmIcon.jpg
+!static/css/main.css
 /media/
 
 .DS_Store
