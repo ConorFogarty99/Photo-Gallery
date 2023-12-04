@@ -22,18 +22,44 @@
             <a class="navbar-brand" href="{% url 'gallery' %}">
                 <img src="{% static 'images/navbarLogo.png' %}" alt="Logo" height="75">
             </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav ml-auto">
-                    <a class="nav-link btn-logout" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
-                </div>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="">Years</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">Albums</a>
+                    </li>
+                    <li class="nav-item divider" id="navbarDivider">
+                        <span class="nav-link">|</span>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn-logout" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </li>
+                </ul>
             </div>
         </div>
     </nav>
+    
+    
 
     {% block content %}
     {% endblock %}
 </body>
+<script>
+    function adjustDivider() {
+        var divider = document.getElementById('navbarDivider');
+        if (window.innerWidth < 992) { // Bootstrap's lg breakpoint
+            divider.innerHTML = '<span class="nav-link">-</span>';
+        } else {
+            divider.innerHTML = '<span class="nav-link">|</span>';
+        }
+    }
+
+    window.addEventListener('resize', adjustDivider);
+    window.onload = adjustDivider;
+</script>
 </html>
