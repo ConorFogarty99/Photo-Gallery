@@ -191,3 +191,77 @@ body, html {
     height: 24px;
     width: auto;
 }
+
+.grid-container {
+    padding: 20px;
+    margin-top: 100px; /* Adjust the margin to push content down from the navbar */
+}
+
+.photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-gap: 15px;
+    align-items: stretch;
+}
+
+.photo-item {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+.photo-item img {
+    width: 100%;
+    height: auto;
+    border: 5px solid #FAF9F6;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.modal-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: stretch;
+    height: 100%;
+    padding-top: 110px;
+    padding-bottom: 55px;
+}
+
+.photo-modal {
+    display: none;
+    position: fixed;
+    z-index: 1050;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%; 
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #FAF9F6;
+    margin: right;
+    padding: 20px;
+    width: auto;
+    max-width: 60%;
+}
+
+.enlarged-photo {
+    max-width: 100%;
+    display: block;
+}
+
+/* Use media queries to adjust layout on smaller screens */
+@media (max-width: 768px) {
+    .modal-wrapper {
+        flex-direction: column;
+    }
+
+    .modal-content,
+    .enlarged-photo {
+        max-width: 100%;
+        width: auto; /* Allows the image to scale down on smaller screens */
+    }
+}

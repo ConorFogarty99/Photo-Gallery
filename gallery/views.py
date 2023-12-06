@@ -2,10 +2,10 @@ from django.shortcuts import render
 from django.contrib.auth.forms import AuthenticationForm
 from .models import Photo
 from django.contrib.auth.decorators import login_required
-
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
+
 
 def login_view(request):
     if request.user.is_authenticated:
@@ -25,5 +25,5 @@ def login_view(request):
 
 @login_required
 def gallery_view(request):
-    # Logic to display the gallery
-    return render(request, 'gallery/gallery_view.html')
+    photos = Photo.objects.all()
+    return render(request, 'gallery/gallery_view.html', {'photos': photos})

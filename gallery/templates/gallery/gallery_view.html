@@ -1,8 +1,41 @@
 {% extends 'gallery/base.html' %}
 
 {% block content %}
-
-<div class="gallery">
-    <p>Hello</p>
+<div class="grid-container">
+    <div class="photo-grid">
+        {% for photo in photos %}
+            <div class="photo-item">
+                <img src="{{ photo.image_url }}" alt="{{ photo.title }}" class="gallery-image" onclick="openModal('{{ photo.image_url }}', '{{ photo.id}}')">
+            </div>
+        {% endfor %}
+    </div>
 </div>
+
+<div id="photoModal" class="photo-modal">
+    <div class="modal-wrapper">
+        <div class="modal-content">
+            <span class="close" onclick="closePhotoModal()">&times;</span>
+            <img class="enlarged-photo" src="" id="modalImage">
+            <p>Hello</p>
+        </div>
+    </div>
+</div>
+
+<script>
+function openModal(src, id) {
+    document.getElementById('modalImage').src = src;
+    document.getElementById('photoModal').style.display = 'flex';
+}
+
+function closePhotoModal() {
+    document.getElementById('photoModal').style.display = 'none';
+}
+
+// Ensure this is the last script to run after the DOM is loaded
+window.addEventListener('click', function(event) {
+    if (event.target == document.getElementById('modal-wrapper')) {
+        closePhotoModal();
+    }
+});
+</script>
 {% endblock %}

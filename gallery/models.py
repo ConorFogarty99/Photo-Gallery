@@ -1,11 +1,14 @@
 from django.db import models
 
 class Photo(models.Model):
-    title = models.CharField(max_length=100)
-    date_taken = models.DateField()
+    title = models.CharField(max_length=255, blank=True)
+    description = models.TextField(blank=True)
     film_type = models.CharField(max_length=50)
     camera = models.CharField(max_length=50)
-    image = models.ImageField(upload_to='photos/')
+    image_url = models.URLField(max_length=1024, default='Null')
+    date_taken = models.DateField(null=True, blank=True)
+    location = models.CharField(max_length=255, blank=True)
+    album = models.CharField(max_length=255, default='Default Album')
 
     def __str__(self):
-        return self.title
+        return self.title or self.album
