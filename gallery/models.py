@@ -9,6 +9,7 @@ class Photo(models.Model):
     date_taken = models.DateField(null=True, blank=True)
     location = models.CharField(max_length=255, blank=True)
     album = models.CharField(max_length=255, default='Default Album')
+    dominant_colors = models.JSONField(default=list)
 
     def __str__(self):
         return self.title or self.album

@@ -1,0 +1,127 @@
+{% extends 'gallery/base.html' %}
+
+{% block content %}
+<div class="grid-container"></div>
+    <div class="form-box">
+        <form id="uploadForm" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" name="album" accept=".zip" required>
+            <button type="submit">Upload Album</button>
+        </form>
+    </div>
+</div>
+
+
+<div id="reviewModal" class="photo-modal" style="display:none;">
+    <div class="modal-content">
+        <img id="img-section" style="max-width: 100%; max-height: 500px; display: block; margin: 0 auto;">
+        
+        <div class="form-input-group">
+            <input type="text" id="title" placeholder="Title" required>
+        </div>
+        <div class="form-input-group">
+            <textarea id="description" placeholder="Description" required></textarea>
+        </div>
+        <div class="form-input-group">
+            <input type="text" id="film_type" placeholder="Film Type" required>
+            <input type="text" id="camera" placeholder="Camera" required>
+            <input type="text" id="date" placeholder="Date" required>
+            <input type="text" id="location" placeholder="Location" required>
+        </div>
+        <div class="form-input-group">
+            <button id="saveNextBtn" class="styled-submit" onclick="saveAndNext()">Save and Next Image</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    let currentImageIndex = 0;
+    let imagePaths = [];
+
+    function saveAndNext() {
+        const title = document.getElementById('title').value;
+        const description = document.getElementById('description').value;
+        const film_type = document.getElementById('film_type').value;
+        const camera = document.getElementById('camera').value;
+        const date = document.getElementById('date').value;
+        const location = document.getElementById('location').value;
+
+        // Check if any field is empty
+        if (!title || !description || !film_type || !camera || !date || !location) {
+            alert("All fields are required.");
+            return;
+        }
+
+        const imageUrl = `../media/${imagePaths[currentImageIndex]}`;
+        const payload = { title, description, film_type, camera, date, location, imageUrl };
+
+        fetch('/gallery/save-photo-data/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: JSON.stringify(payload)
+        }).then(() => {
+            if (currentImageIndex < imagePaths.length - 1) {
+                currentImageIndex++;
+                displayImage(currentImageIndex);
+            } else {
+                reviewModal.style.display = 'none';
+                // cleanup_temp_images(temp_dir)
+                // Add urls to cleanup temp_images dir
+                window.location.href = "{% url gallery %}"
+            }
+        }).catch(error => console.error('Error:', error));
+    }
+
+    function displayImage(index) {
+            const reviewModal = document.getElementById('reviewModal');
+            const imgSection = document.getElementById('img-section');
+            imgSection.src = `../media/${imagePaths[index]}`;
+
+            document.getElementById('title').value = '';
+            document.getElementById('description').value = '';
+            document.getElementById('date').value = '';
+            document.getElementById('location').value = '';
+
+            reviewModal.style.display = 'block';
+        }
+
+    function displayImagesForReview(paths) {
+        imagePaths = paths;
+        displayImage(0);
+    }
+
+    function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById('uploadForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            fetch('{% url "process_album" %}', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                displayImagesForReview(data.images);
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    });
+</script>
+{% endblock %}

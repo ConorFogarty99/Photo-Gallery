@@ -38,6 +38,12 @@
         margin: 0 10px;
         padding: 15px;
     }
+
+    .modal-content,
+    .enlarged-photo {
+        max-width: 100%;
+        width: auto;
+    }
 }
 
 body, html {
@@ -194,7 +200,7 @@ body, html {
 
 .grid-container {
     padding: 20px;
-    margin-top: 100px; /* Adjust the margin to push content down from the navbar */
+    margin-top: 100px;
 }
 
 .photo-grid {
@@ -218,16 +224,6 @@ body, html {
     transition: transform 0.3s ease;
 }
 
-.modal-wrapper {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: stretch;
-    height: 100%;
-    padding-top: 110px;
-    padding-bottom: 55px;
-}
-
 .photo-modal {
     display: none;
     position: fixed;
@@ -235,33 +231,165 @@ body, html {
     left: 0;
     top: 0;
     width: 100%;
-    height: 100%; 
+    height: 100%;
     overflow: auto;
     background-color: rgba(0,0,0,0.4);
+    justify-content: center;
+    align-items: center;
 }
 
 .modal-content {
-    background-color: #FAF9F6;
-    margin: right;
+    background-color: #fefefe;
     padding: 20px;
-    width: auto;
-    max-width: 60%;
+    border: 1px solid #888;
+    width: 60%;
+    max-height: 80vh;
+    overflow-y: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .enlarged-photo {
     max-width: 100%;
-    display: block;
+    max-height: 100vh;
+    margin-bottom: 10px;
 }
 
-/* Use media queries to adjust layout on smaller screens */
-@media (max-width: 768px) {
-    .modal-wrapper {
-        flex-direction: column;
-    }
+#photoTitle {
+    text-align: left;
+    padding-top: 10px;
+}
 
-    .modal-content,
-    .enlarged-photo {
-        max-width: 100%;
-        width: auto; /* Allows the image to scale down on smaller screens */
-    }
+.close {
+    position: absolute;
+    right: 3px;
+    top: 0px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+#img-section {
+    max-width: 100%;
+    max-height: 600px;
+    display: block;
+    margin: 0 auto;
+}
+
+.modal-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 10px;
+}
+
+.modal-title #photoTitle {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.modal-album {
+    font-weight: bold;
+}
+
+.modal-description {
+    margin-bottom: 15px;
+}
+
+.photo-details {
+    display: flex;
+    justify-content: space-around;
+    font-size: 0.8rem;
+}
+
+.detail-label {
+    font-weight: bold;
+}
+
+.detail {
+    font-style: italic;
+}
+
+.color-swatch {
+    width: 20%;
+    height: 20px;
+    display: inline-block;
+    margin: 0;
+    border: 1px;
+}
+
+.color-bar {
+    height: 20px;
+    width: 100%;
+    display: flex;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+#reviewModal .modal-content input[type='text'],
+#reviewModal .modal-content textarea {
+    width: calc(100% - 20px); /* Adjusts width considering padding */
+    padding: 10px; /* Adds padding inside the inputs */
+    margin-bottom: 10px; /* Adds space below each input */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* Ensures padding doesn't add to the width */
+}
+
+#reviewModal .modal-title {
+    padding-top: 20px; /* Adds space above the title */
+}
+
+#reviewModal .photo-details > input[type='text'] {
+    grid-column: span 1;
+}
+
+#reviewModal .modal-description {
+    grid-column: span 2;
+}
+
+.form-input-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.form-input-group input,
+.form-input-group textarea {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.form-input-group textarea {
+    resize: vertical;
+    height: auto;
+    min-height: 38px;
+}
+
+#title {
+    margin-top: 10px;
+}
+
+.styled-submit {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #e30613;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    width: 100%;
+}
+
+.styled-submit:hover,
+.styled-submit:active {
+    background-color: #9b040e;
+    transform: scale(1.02);
 }

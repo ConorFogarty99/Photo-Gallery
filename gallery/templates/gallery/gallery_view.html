@@ -4,38 +4,65 @@
 <div class="grid-container">
     <div class="photo-grid">
         {% for photo in photos %}
-            <div class="photo-item">
-                <img src="{{ photo.image_url }}" alt="{{ photo.title }}" class="gallery-image" onclick="openModal('{{ photo.image_url }}', '{{ photo.id}}')">
-            </div>
+        <div class="photo-item">
+            <img src="{{ photo.image_url }}" alt="{{ photo.title }}" class="gallery-image" 
+            onclick="openModal('{{ photo.image_url }}', '{{ photo.title }}', '{{ photo.album }}', '{{ photo.description }}', '{{ photo.date_taken }}', '{{ photo.location }}', '{{ photo.camera }}', '{{ photo.film_type }}', '{{ photo.dominant_colors }}')">
+        </div>
         {% endfor %}
     </div>
 </div>
 
-<div id="photoModal" class="photo-modal">
-    <div class="modal-wrapper">
-        <div class="modal-content">
-            <span class="close" onclick="closePhotoModal()">&times;</span>
-            <img class="enlarged-photo" src="" id="modalImage">
-            <p>Hello</p>
+<div id="photoModal" class="photo-modal" onclick="closePhotoModal()">
+    <div class="modal-content">
+        <span class="close" onclick="closePhotoModal()">&times;</span>
+        <img class="enlarged-photo" src="" id="photoImage">
+        <div class="color-bar" id="colorBar"></div>
+        <div class="modal-title">
+            <span id="photoTitle"></span>
+            <span id="photoAlbum" class="modal-album"></span>
+        </div>
+        <p id="photoDesc" class="modal-description"></p>
+        <div class="photo-details">
+            <span class="detail-label">Location:</span><span id="photoLoc" class="detail"></span>
+            <span class="detail-label">Camera:</span><span id="photoCamera" class="detail"></span>
+            <span class="detail-label">Film:</span><span id="photoFilm" class="detail"></span>
         </div>
     </div>
 </div>
 
 <script>
-function openModal(src, id) {
-    document.getElementById('modalImage').src = src;
-    document.getElementById('photoModal').style.display = 'flex';
+function openModal(src, title, album, description, date_taken, location, camera, film_type, dominant_colors) {
+    document.getElementById('photoModal').style.display = 'block';
+    document.getElementById('photoImage').src = src;
+    document.getElementById('photoTitle').textContent = title;
+    document.getElementById('photoAlbum').textContent = album;
+    document.getElementById('photoDesc').textContent =  description;
+    // document.getElementById('photoDate').textContent = date_taken;
+    document.getElementById('photoLoc').textContent = location;
+    document.getElementById('photoCamera').textContent = camera;
+    document.getElementById('photoFilm').textContent = film_type;
+
+    const colors = JSON.parse(dominant_colors.replace(/'/g, '"'));
+    const colorBar = document.getElementById('colorBar');
+    colorBar.innerHTML = '';
+
+    for (let i = 0; i < 5; i++) {
+        const colorDiv = document.createElement('div');
+        const color = colors[i % colors.length];
+        colorDiv.style.backgroundColor = `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
+        colorDiv.className = 'color-swatch';
+        colorBar.appendChild(colorDiv);
+    }
 }
 
 function closePhotoModal() {
     document.getElementById('photoModal').style.display = 'none';
 }
 
-// Ensure this is the last script to run after the DOM is loaded
-window.addEventListener('click', function(event) {
-    if (event.target == document.getElementById('modal-wrapper')) {
+window.onclick = function(event) {
+    if (event.target == document.getElementById('photoModal')) {
         closePhotoModal();
     }
-});
+}
 </script>
 {% endblock %}
