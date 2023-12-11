@@ -39,8 +39,8 @@
         padding: 15px;
     }
 
-    .modal-content,
-    .enlarged-photo {
+    .modal-content {
+    /* .enlarged-photo { */
         max-width: 100%;
         width: auto;
     }
@@ -203,25 +203,35 @@ body, html {
     margin-top: 100px;
 }
 
+/**/
 .photo-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    grid-gap: 15px;
-    align-items: stretch;
+    column-count: 4;
+    column-gap: 15px;
 }
 
 .photo-item {
-    position: relative;
-    width: 100%;
-    overflow: hidden;
+    break-inside: avoid;
+    margin-bottom: 15px;
 }
 
 .photo-item img {
     width: 100%;
     height: auto;
+    display: block;
     border: 5px solid #FAF9F6;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    transition: transform 0.3s ease;
+}
+
+@media (max-width: 800px) {
+    .photo-grid {
+        column-count: 2;
+    }
+}
+
+@media (max-width: 400px) {
+    .photo-grid {
+        column-count: 1;
+    }
 }
 
 .photo-modal {
@@ -249,12 +259,6 @@ body, html {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-}
-
-.enlarged-photo {
-    max-width: 100%;
-    max-height: 100vh;
-    margin-bottom: 10px;
 }
 
 #photoTitle {
@@ -324,21 +328,21 @@ body, html {
     width: 100%;
     display: flex;
     margin-top: 5px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 #reviewModal .modal-content input[type='text'],
 #reviewModal .modal-content textarea {
-    width: calc(100% - 20px); /* Adjusts width considering padding */
-    padding: 10px; /* Adds padding inside the inputs */
-    margin-bottom: 10px; /* Adds space below each input */
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    box-sizing: border-box; /* Ensures padding doesn't add to the width */
+    box-sizing: border-box;
 }
 
 #reviewModal .modal-title {
-    padding-top: 20px; /* Adds space above the title */
+    padding-top: 20px;
 }
 
 #reviewModal .photo-details > input[type='text'] {
@@ -392,4 +396,35 @@ body, html {
 .styled-submit:active {
     background-color: #9b040e;
     transform: scale(1.02);
+}
+
+.image-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 100%;
+    margin: 0 auto;
+    position: relative;
+}
+
+#img-section {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100vh;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+    transform-origin: center center;
+}
+.enlarged-photo {
+    width: auto;
+    max-height: 70vh;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.enlarged-photo.portrait {
+    width: 150px;
+    max-height: 70vh;
+    transition: transform 0.3s ease;
 }

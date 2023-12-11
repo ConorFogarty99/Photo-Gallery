@@ -23,6 +23,7 @@
         </div>
         <p id="photoDesc" class="modal-description"></p>
         <div class="photo-details">
+            <span class="detail-label">Date:</span><span id="photoDate" class="detail"></span>
             <span class="detail-label">Location:</span><span id="photoLoc" class="detail"></span>
             <span class="detail-label">Camera:</span><span id="photoCamera" class="detail"></span>
             <span class="detail-label">Film:</span><span id="photoFilm" class="detail"></span>
@@ -33,11 +34,12 @@
 <script>
 function openModal(src, title, album, description, date_taken, location, camera, film_type, dominant_colors) {
     document.getElementById('photoModal').style.display = 'block';
-    document.getElementById('photoImage').src = src;
+    document.getElementById('photoImage').src;
+    photoImage.src = src;
     document.getElementById('photoTitle').textContent = title;
     document.getElementById('photoAlbum').textContent = album;
     document.getElementById('photoDesc').textContent =  description;
-    // document.getElementById('photoDate').textContent = date_taken;
+    document.getElementById('photoDate').textContent = date_taken;
     document.getElementById('photoLoc').textContent = location;
     document.getElementById('photoCamera').textContent = camera;
     document.getElementById('photoFilm').textContent = film_type;
@@ -55,14 +57,14 @@ function openModal(src, title, album, description, date_taken, location, camera,
     }
 }
 
-function closePhotoModal() {
-    document.getElementById('photoModal').style.display = 'none';
-}
-
 window.onclick = function(event) {
     if (event.target == document.getElementById('photoModal')) {
         closePhotoModal();
     }
+}
+
+function closePhotoModal() {
+    document.getElementById('photoModal').style.display = 'none';
 }
 </script>
 {% endblock %}

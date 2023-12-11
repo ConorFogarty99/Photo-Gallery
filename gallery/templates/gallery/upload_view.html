@@ -14,8 +14,10 @@
 
 <div id="reviewModal" class="photo-modal" style="display:none;">
     <div class="modal-content">
-        <img id="img-section" style="max-width: 100%; max-height: 500px; display: block; margin: 0 auto;">
-        
+        <div class="image-container">
+            <img id="img-section" src="" alt="Photo">
+        </div>
+        <button id="rotateBtn" onclick="rotateImage()">Rotate</button>
         <div class="form-input-group">
             <input type="text" id="title" placeholder="Title" required>
         </div>
@@ -53,7 +55,8 @@
         }
 
         const imageUrl = `../media/${imagePaths[currentImageIndex]}`;
-        const payload = { title, description, film_type, camera, date, location, imageUrl };
+        const isLastImage = currentImageIndex === imagePaths.length - 1;
+        const payload = { title, description, film_type, camera, date, location, imageUrl, rotation, is_last_image: isLastImage };
 
         fetch('/gallery/save-photo-data/', {
             method: 'POST',
@@ -68,9 +71,7 @@
                 displayImage(currentImageIndex);
             } else {
                 reviewModal.style.display = 'none';
-                // cleanup_temp_images(temp_dir)
-                // Add urls to cleanup temp_images dir
-                window.location.href = "{% url gallery %}"
+                window.location.href = "/gallery/";
             }
         }).catch(error => console.error('Error:', error));
     }
@@ -106,6 +107,28 @@
                 }
             }
             return cookieValue;
+    }
+
+    let rotation = 0;
+
+    function rotateImage() {
+        const imgSection = document.getElementById('img-section');
+        const container = document.querySelector('.image-container');
+        rotation = (rotation + 90) % 360;
+        imgSection.style.transform = `rotate(${rotation}deg)`;
+        if (rotation === 90 || rotation === 270) {
+            // Portrait
+            imgSection.classList.add('portrait');
+            imgSection.style.width = `${container.offsetHeight}px`;
+            imgSection.style.height = 'auto';
+            container.style.height = `${imgSection.offsetWidth}px`; 
+        } else {
+            // Landscape
+            imgSection.classList.remove('portrait');
+            imgSection.style.width = ``;
+            imgSection.style.height = '';
+            container.style.height = ``; 
+        }
     }
 
     document.addEventListener("DOMContentLoaded", function() {
