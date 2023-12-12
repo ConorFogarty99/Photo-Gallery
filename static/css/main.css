@@ -1,7 +1,7 @@
 @font-face {
-    font-family: 'inter';
-    src: local('inter'),
-         url('../fonts/inter.ttf') format("truetype");
+    font-family: 'kodakku';
+    src: local('kodakku'),
+         url('../fonts/kodakku.ttf') format("truetype");
 }
 
 @media (max-width: 991px) {
@@ -427,4 +427,15 @@ body, html {
     width: 150px;
     max-height: 70vh;
     transition: transform 0.3s ease;
+}
+
+.download-icon {
+    display: inline-block;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.download-icon img {
+    width: 16px;
+    height: auto;
 }

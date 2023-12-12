@@ -27,6 +27,9 @@
             <span class="detail-label">Location:</span><span id="photoLoc" class="detail"></span>
             <span class="detail-label">Camera:</span><span id="photoCamera" class="detail"></span>
             <span class="detail-label">Film:</span><span id="photoFilm" class="detail"></span>
+            <a id="downloadLink" href="{{ photo.image_url }}" download title="Download" class="ms-2">
+                <i class="bi bi-download"></i>
+            </a>
         </div>
     </div>
 </div>
@@ -43,6 +46,8 @@ function openModal(src, title, album, description, date_taken, location, camera,
     document.getElementById('photoLoc').textContent = location;
     document.getElementById('photoCamera').textContent = camera;
     document.getElementById('photoFilm').textContent = film_type;
+
+    document.getElementById('downloadLink').href = src;
 
     const colors = JSON.parse(dominant_colors.replace(/'/g, '"'));
     const colorBar = document.getElementById('colorBar');

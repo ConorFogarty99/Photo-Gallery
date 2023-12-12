@@ -71,6 +71,8 @@ def save_photo_data(request):
             desc = data.get('description')
             film_type = data.get('film_type')
             camera = data.get('camera')
+            date_obj = data.get('date')
+            location = data.get('location')
             rotation = data.get('rotation', 0)
             local_image_path = os.path.join(settings.MEDIA_ROOT, data.get('imageUrl'))
 
@@ -86,12 +88,12 @@ def save_photo_data(request):
 
             dominant_colors = get_dominant_colors(s3_url)
 
-            photo = Photo(title=title, description=desc, film_type=film_type, camera=camera, image_url=s3_url, dominant_colors=dominant_colors, album=local_image_path.split('/')[-3])
+            photo = Photo(title=title, description=desc, film_type=film_type, date_taken=date_obj, location=location, camera=camera, image_url=s3_url, dominant_colors=dominant_colors, album=local_image_path.split('/')[-3])
             photo.save()
 
             if data.get('is_last_image', False):
                 cleanup_temp_images(temp_dir)
-                
+
             return JsonResponse({'status': 'success'})
 
         except Exception as e:

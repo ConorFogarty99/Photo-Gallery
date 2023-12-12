@@ -27,7 +27,7 @@
         <div class="form-input-group">
             <input type="text" id="film_type" placeholder="Film Type" required>
             <input type="text" id="camera" placeholder="Camera" required>
-            <input type="text" id="date" placeholder="Date" required>
+            <input type="date" id="date" placeholder="Date" required>
             <input type="text" id="location" placeholder="Location" required>
         </div>
         <div class="form-input-group">
@@ -56,7 +56,15 @@
 
         const imageUrl = `../media/${imagePaths[currentImageIndex]}`;
         const isLastImage = currentImageIndex === imagePaths.length - 1;
-        const payload = { title, description, film_type, camera, date, location, imageUrl, rotation, is_last_image: isLastImage };
+        const payload = {   title, 
+                            description,
+                            film_type, 
+                            camera, 
+                            date, 
+                            location, 
+                            imageUrl, 
+                            rotation, 
+                            is_last_image: isLastImage };
 
         fetch('/gallery/save-photo-data/', {
             method: 'POST',
