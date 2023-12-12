@@ -6,7 +6,16 @@
         {% for photo in photos %}
         <div class="photo-item">
             <img src="{{ photo.image_url }}" alt="{{ photo.title }}" class="gallery-image" 
-            onclick="openModal('{{ photo.image_url }}', '{{ photo.title }}', '{{ photo.album }}', '{{ photo.description }}', '{{ photo.date_taken }}', '{{ photo.location }}', '{{ photo.camera }}', '{{ photo.film_type }}', '{{ photo.dominant_colors }}')">
+            onclick="openModal( '{{ photo.image_url }}',
+                                '{{ photo.title }}',
+                                '{{ photo.album }}', 
+                                '{{ photo.description }}', 
+                                '{{ photo.date_taken }}', 
+                                '{{ photo.location }}', 
+                                '{{ photo.camera }}', 
+                                '{{ photo.film_type }}', 
+                                '{{ photo.dominant_colors }}',
+                                '{{ photo.id }}')">
         </div>
         {% endfor %}
     </div>
@@ -31,14 +40,21 @@
                 <i class="bi bi-download"></i>
             </a>
         </div>
+        {% if request.user.is_superuser %}
+        <button id="deleteButton" class="styled-submit" onclick="deleteImage('{{ photo.id }}')">Delete</button>
+        {% endif %}
     </div>
 </div>
 
 <script>
-function openModal(src, title, album, description, date_taken, location, camera, film_type, dominant_colors) {
+
+let currentPhotoId;
+
+function openModal(src, title, album, description, date_taken, location, camera, film_type, dominant_colors, photoId) {
     document.getElementById('photoModal').style.display = 'block';
     document.getElementById('photoImage').src;
     photoImage.src = src;
+    currentPhotoId = photoId;
     document.getElementById('photoTitle').textContent = title;
     document.getElementById('photoAlbum').textContent = album;
     document.getElementById('photoDesc').textContent =  description;
@@ -70,6 +86,52 @@ window.onclick = function(event) {
 
 function closePhotoModal() {
     document.getElementById('photoModal').style.display = 'none';
+}
+
+function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+    }
+
+function deleteImage(photoId) {
+    if (!currentPhotoId) {
+        alert("No photo selected for deletion.");
+        return;
+    }
+
+    if (confirm('Are you sure you want to delete this image?')) {
+        fetch(`/gallery/delete-photo/${currentPhotoId}/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken')
+            }
+        })
+        .then(response => {
+            if (response.headers.get("content-type").includes("application/json")) {
+                return response.json();
+            } else {
+                throw new Error('Response not JSON');
+            }
+        })
+        .then(data => {
+            if (data.status === 'success') {
+                window.location.reload(); // Reload the page to update the gallery
+            } else {
+                alert('Error deleting image');
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
 }
 </script>
 {% endblock %}

@@ -15,6 +15,7 @@ from django.core.files.storage import FileSystemStorage
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .utils import extract_images_from_zip, cleanup_temp_images, get_dominant_colors, temp_dir
 from django.views.decorators.csrf import csrf_exempt
+from urllib.parse import urlparse
 
 def is_superuser(user):
     return user.is_superuser
@@ -101,3 +102,22 @@ def save_photo_data(request):
             return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
 
     return JsonResponse({'status': 'error'}, status=400)
+
+@csrf_exempt
+def delete_photo(request, photo_id):
+    try:
+        photo = Photo.objects.get(id=photo_id)
+        
+        parsed_url = urlparse(photo.image_url)
+        bucket_name = AWS_STORAGE_BUCKET_NAME
+        key = parsed_url.path.lstrip('/')
+
+        s3 = boto3.client('s3', aws_access_key_id=AWS_ACCESS_KEY_ID, aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
+        s3.delete_object(Bucket=bucket_name, Key=key)
+
+        photo.delete()
+
+        return JsonResponse({'status': 'success'})
+
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
