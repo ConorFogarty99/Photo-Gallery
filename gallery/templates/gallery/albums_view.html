@@ -1,0 +1,14 @@
+{% extends 'gallery/base.html' %}
+
+{% block content %}
+<div class="album-list-container">
+    {% for year, albums in albums_by_year.items %}
+        <h2 class="year-header">{{ year }}</h2>
+        <ul>
+            {% for album_full, album_name in albums %}
+            <li><a href="{% url 'album_photos' album_full %}">{{ album_name }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+</div>
+{% endblock %}
